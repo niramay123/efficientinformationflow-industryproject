@@ -64,7 +64,7 @@ function AppContent() {
     // Only connect if there is a logged-in user
     if (currentUser) {
       // Establish connection to the backend socket server
-      const socket = io("http://localhost:5000"); // Ensure this matches your backend URL
+      const socket = io(import.meta.env.VITE_API_URL || "http://localhost:5000"); // Ensure this matches your backend URL
 
       socket.on('connect', () => {
         console.log('Socket.IO connected:', socket.id);
