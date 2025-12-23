@@ -16,21 +16,27 @@ const app = express();
 
 // Middlewares
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+  origin: process.env.CLIENT_URL || '*'
+}));
 app.use('/public', express.static("uploads"));
 
 // Routes
 app.use('/api', userRoutes);
 app.use('/api/task', taskRoutes);
 app.use('/api/notifications', notificationRoutes);
-app.use('/api',documentRoutes)
+app.use('/api', documentRoutes)
 
 // MongoDB connection
 connectDB();
 
 // Create HTTP server & integrate Socket.IO
 const server = http.createServer(app);
-const io = new Server(server, { cors: { origin: '*' } });
+const io = new Server(server, {
+  cors: {
+    origin: process.env.CLIENT_URL || '*'
+  }
+});
 
 // Initialize Socket.IO
 initializeSocket(io);
