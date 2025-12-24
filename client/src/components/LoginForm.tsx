@@ -13,6 +13,8 @@ interface LoginFormProps {
 
 import { useTranslation } from 'react-i18next';
 
+import { LanguageSwitcher } from './LanguageSwitcher';
+
 export function LoginForm({ onLogin }: LoginFormProps) {
   const { t } = useTranslation();
   const [email, setEmail] = useState('');
@@ -49,7 +51,10 @@ export function LoginForm({ onLogin }: LoginFormProps) {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-slate-100 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-slate-100 flex items-center justify-center p-4 relative">
+      <div className="absolute top-4 right-4">
+        <LanguageSwitcher />
+      </div>
       <div className="w-full max-w-md">
         {/* Logo and Header */}
         <div className="text-center mb-6">
@@ -106,7 +111,8 @@ export function LoginForm({ onLogin }: LoginFormProps) {
                     placeholder={t('email')}
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="pl-10 rounded-lg"
+                    className="rounded-lg"
+                    style={{ paddingLeft: '3rem' }}
                     required
                   />
                 </div>
@@ -127,7 +133,8 @@ export function LoginForm({ onLogin }: LoginFormProps) {
                     placeholder={t('password')}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="pl-10 pr-10 rounded-lg"
+                    className="pr-10 rounded-lg"
+                    style={{ paddingLeft: '3rem' }}
                     required
                   />
                   <button

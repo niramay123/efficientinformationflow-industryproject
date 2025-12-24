@@ -10,6 +10,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import apiClient from '../apiClient';
 import { useTranslation } from 'react-i18next';
 
+import { LanguageSwitcher } from './LanguageSwitcher';
+
 export function RegisterForm() {
   const { t } = useTranslation();
   const [step, setStep] = useState<'details' | 'otp'>('details');
@@ -64,7 +66,10 @@ export function RegisterForm() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-slate-100 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-slate-100 flex items-center justify-center p-4 relative">
+      <div className="absolute top-4 right-4">
+        <LanguageSwitcher />
+      </div>
       <div className="w-full max-w-md space-y-6">
         <div className="text-center">
           <div
@@ -101,21 +106,21 @@ export function RegisterForm() {
                     <Label htmlFor="name">{t('fullName')}</Label>
                     <div className="relative">
                       <User className="absolute left-3 top-3 h-4 w-4 text-slate-400" />
-                      <Input id="name" placeholder="John Doe" value={formData.name} onChange={handleInputChange} className="pl-9" required />
+                      <Input id="name" placeholder="John Doe" value={formData.name} onChange={handleInputChange} className="" style={{ paddingLeft: '3rem' }} required />
                     </div>
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="email">{t('email')}</Label>
                     <div className="relative">
                       <Mail className="absolute left-3 top-3 h-4 w-4 text-slate-400" />
-                      <Input id="email" type="email" placeholder="you@company.com" value={formData.email} onChange={handleInputChange} className="pl-9" required />
+                      <Input id="email" type="email" placeholder="you@company.com" value={formData.email} onChange={handleInputChange} className="" style={{ paddingLeft: '3rem' }} required />
                     </div>
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="password">{t('password')}</Label>
                     <div className="relative">
                       <Lock className="absolute left-3 top-3 h-4 w-4 text-slate-400" />
-                      <Input id="password" type="password" placeholder="••••••••" value={formData.password} onChange={handleInputChange} className="pl-9" required />
+                      <Input id="password" type="password" placeholder="••••••••" value={formData.password} onChange={handleInputChange} className="" style={{ paddingLeft: '3rem' }} required />
                     </div>
                   </div>
                   <div className="space-y-2">
@@ -152,7 +157,7 @@ export function RegisterForm() {
                     <Label htmlFor="otp">{t('enterOtp')}</Label>
                     <div className="relative">
                       <KeyRound className="absolute left-3 top-3 h-4 w-4 text-slate-400" />
-                      <Input id="otp" placeholder="123456" value={otp} onChange={(e) => setOtp(e.target.value)} className="pl-9" required />
+                      <Input id="otp" placeholder="123456" value={otp} onChange={(e) => setOtp(e.target.value)} className="" style={{ paddingLeft: '3rem' }} required />
                     </div>
                   </div>
                   <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700" disabled={isLoading}>
