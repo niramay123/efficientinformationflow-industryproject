@@ -14,7 +14,8 @@ export const sendMail = async (email, subject, data) => {
   console.log("[SendMail] Creating transport with user:", process.env.GMAIL); // Debug Log
   const transport = createTransport({
     host: "smtp.gmail.com",
-    port: 465,
+    port: 587,
+    secure: false, // Use STARTTLS
     auth: {
       user: process.env.GMAIL,
       pass: process.env.PASSWORD,
@@ -80,8 +81,8 @@ export const sendMail = async (email, subject, data) => {
 export const sendForgotMail = async (subject, data) => {
   const transport = createTransport({
     host: "smtp.gmail.com",
-    port: 465,
-    secure: true,
+    port: 587,
+    secure: false, // Use STARTTLS
     auth: {
       user: process.env.GMAIL,
       pass: process.env.PASSWORD,
