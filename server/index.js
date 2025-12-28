@@ -1,4 +1,6 @@
 import dotenv from 'dotenv';
+import path from 'path';
+import { fileURLToPath } from 'url';
 import { connectDB } from './databases/db.js';
 import { Server } from 'socket.io';
 import express from 'express';
@@ -11,7 +13,13 @@ import notificationRoutes from './routes/notification.routes.js'
 import documentRoutes from './routes/document.routes.js'
 import { initializeSocket } from './sockets/index.js';
 
-dotenv.config();
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+dotenv.config({ path: path.resolve(__dirname, '.env') });
+
+if (!process.env.ACTIVATION_SECRET) {
+  console.error("FATAL ERROR: ACTIVATION_SECRET is not defined in .env file loaded from: " + path.resolve(__dirname, '.env'));
+}
 const app = express();
 
 // Middlewares

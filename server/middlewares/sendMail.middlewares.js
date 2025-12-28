@@ -6,6 +6,12 @@ import bcrypt from "bcrypt"
 
 export const sendMail = async (email, subject, data) => {
   //smtp configuration
+  if (!process.env.GMAIL || !process.env.PASSWORD) {
+    console.error("[SendMail] FATAL: GMAIL or PASSWORD environment variable is missing!");
+    throw new Error("Server misconfiguration: Missing email credentials.");
+  }
+
+  console.log("[SendMail] Creating transport with user:", process.env.GMAIL); // Debug Log
   const transport = createTransport({
     host: "smtp.gmail.com",
     port: 465,
@@ -154,24 +160,24 @@ export const sendForgotMail = async (subject, data) => {
   });
 };
 
-export const resetPassword =async(req,res)=>{
-  
+export const resetPassword = async (req, res) => {
+
   try {
 
     const decodedData = jwt.verify(req.query.token, process.env.FORGOT_SECRET);
 
-    const user = await User.findOne({email:decodedData.email});
+    const user = await User.findOne({ email: decodedData.email });
 
-    if(!user) {
-      res.status(400).json({message:"User doesn't exists"});
+    if (!user) {
+      res.status(400).json({ message: "User doesn't exists" });
     };
 
-    if(user.resetPasswordExpired === null) {
-      return res.status(400).json({message:"Token expired"})
+    if (user.resetPasswordExpired === null) {
+      return res.status(400).json({ message: "Token expired" })
     }
 
-    if(user.resetPasswordExpired < Date.now() ) {
-      return res.status(400).json({message:"Token expired"})
+    if (user.resetPasswordExpired < Date.now()) {
+      return res.status(400).json({ message: "Token expired" })
     }
 
     const password = await bcrypt.hash(req.body.password, 10);
@@ -181,11 +187,11 @@ export const resetPassword =async(req,res)=>{
 
     await user.save();
 
-    res.json({message:"Password reset Successfully"});
-    
+    res.json({ message: "Password reset Successfully" });
+
   } catch (error) {
     res.status(500).json({
-      message:error.message,
+      message: error.message,
     })
   }
 }
