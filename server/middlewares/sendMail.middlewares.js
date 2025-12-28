@@ -20,6 +20,10 @@ export const sendMail = async (email, subject, data) => {
       user: process.env.GMAIL,
       pass: process.env.PASSWORD,
     },
+    // Debugging options
+    logger: true,
+    debug: true,
+    family: 4, // Force IPv4
   });
 
   // the mail format in html to send
