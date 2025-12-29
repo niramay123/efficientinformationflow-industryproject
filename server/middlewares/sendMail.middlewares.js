@@ -14,8 +14,8 @@ export const sendMail = async (email, subject, data) => {
   console.log("[SendMail] Creating transport with user:", process.env.GMAIL); // Debug Log
   const transport = createTransport({
     host: "smtp.gmail.com",
-    port: 587,
-    secure: false, // Use STARTTLS
+    port: 465, // Use Port 465
+    secure: true, // Use Implicit SSL
     auth: {
       user: process.env.GMAIL,
       pass: process.env.PASSWORD,
@@ -24,6 +24,7 @@ export const sendMail = async (email, subject, data) => {
     logger: true,
     debug: true,
     family: 4, // Force IPv4
+    connectionTimeout: 10000, // 10 seconds timeout
   });
 
   // the mail format in html to send
@@ -85,12 +86,14 @@ export const sendMail = async (email, subject, data) => {
 export const sendForgotMail = async (subject, data) => {
   const transport = createTransport({
     host: "smtp.gmail.com",
-    port: 587,
-    secure: false, // Use STARTTLS
+    port: 465,
+    secure: true, // Use Implicit SSL
     auth: {
       user: process.env.GMAIL,
       pass: process.env.PASSWORD,
     },
+    family: 4, // Force IPv4
+    connectionTimeout: 10000,
   });
 
   const html = `<!DOCTYPE html>
